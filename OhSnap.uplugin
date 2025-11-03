@@ -1,0 +1,24 @@
+{
+	"FileVersion": 3,
+	"Version": 1,
+	"VersionName": "1.0",
+	"FriendlyName": "OhSnap",
+	"Description": "A simple plugin for snapping selections in the Level Editor",
+	"Category": "Other",
+	"CreatedBy": "Jackson Hayes",
+	"CreatedByURL": "jacksonhayes.co",
+	"DocsURL": "",
+	"MarketplaceURL": "",
+	"SupportURL": "",
+	"CanContainContent": true,
+	"IsBetaVersion": true,
+	"IsExperimentalVersion": false,
+	"Installed": false,
+	"Modules": [
+		{
+			"Name": "OhSnap",
+			"Type": "Runtime",
+			"LoadingPhase": "Default"
+		}
+	]
+}
