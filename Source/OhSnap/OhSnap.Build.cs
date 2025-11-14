@@ -38,6 +38,8 @@ public class OhSnap : ModuleRules
 				"Engine",
 				"Slate",
 				"SlateCore",
+				"ToolMenus",
+				"UnrealEd"
 				// ... add private dependencies that you statically link with here ...	
 			}
 			);
