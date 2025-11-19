@@ -45,17 +45,27 @@ void FOhSnapCallbacks::SnapActorToActor(bool bTranslation, bool bRotation, bool 
 		TargetActor = SelectedActors[0];
 	}
 	
-	GEditor->BeginTransaction(LOCTEXT("SnapActorToActor", "Snap Actor to Actor"));
-	if (bTranslation)
 	{
-		TargetActor->SetActorLocation(DesiredTransform.GetLocation());
-	}
+		const FScopedTransaction Transaction(NSLOCTEXT("OhSnap", "LevelEditorSnapActorToActor", "Snap Actor to Actor"));
+		
+		TargetActor->SetFlags(RF_Transactional);
+		TargetActor->Modify();
+		if (USceneComponent* RootComp = TargetActor->GetRootComponent())
+		{
+			RootComp->SetFlags(RF_Transactional);
+			RootComp->Modify();
+		}
+		
+		if (bTranslation)
+		{
+			TargetActor->SetActorLocation(DesiredTransform.GetLocation());
+		}
 	
-	if (bRotation)
-	{
-		TargetActor->SetActorRotation(DesiredTransform.GetRotation());
+		if (bRotation)
+		{
+			TargetActor->SetActorRotation(DesiredTransform.GetRotation());
+		}
 	}
-	GEditor->EndTransaction();
 }
 
 bool FOhSnapCallbacks::SnapActorToActor_CanExecute()
