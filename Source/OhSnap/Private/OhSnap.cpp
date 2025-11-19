@@ -60,6 +60,7 @@ void FOhSnapCallbacks::SnapActorToActor(bool bTranslation, bool bRotation, bool 
 
 bool FOhSnapCallbacks::SnapActorToActor_CanExecute()
 {
+	UE_LOG(LogTemp, Log, TEXT("SnapActorToActor_CanExecute"));
 	UEditorActorSubsystem* EditorActorSubsystem = GEditor->GetEditorSubsystem<UEditorActorSubsystem>();
 	if (!EditorActorSubsystem)
 	{
@@ -91,6 +92,9 @@ void FOhSnapModule::StartupModule()
 {
 	FLevelEditorModule& LevelEditorModule = FModuleManager::LoadModuleChecked<FLevelEditorModule>("LevelEditor");
 	FOhSnapCommands::Register();
+	BindGlobalOhSnapCommands();
+	LevelEditorModule.GetGlobalLevelEditorActions()->Append(CommandList.ToSharedRef());
+
 	UToolMenus::RegisterStartupCallback(FSimpleMulticastDelegate::FDelegate::CreateRaw(this, &FOhSnapModule::RegisterSnapButtons));
 }
 
@@ -108,9 +112,18 @@ void FOhSnapModule::BindGlobalOhSnapCommands()
 
     const FOhSnapCommands& Commands = FOhSnapCommands::Get();
     FUICommandList& ActionList = *CommandList;
-    
-    ActionList.MapAction( Commands.SnapAToB, FExecuteAction::CreateLambda([] () { FOhSnapCallbacks::SnapActorToActor( false); }), FCanExecuteAction::CreateStatic( &FOhSnapCallbacks::SnapActorToActor_CanExecute) );
-    ActionList.MapAction( Commands.SnapBToA, FExecuteAction::CreateStatic([] () { FOhSnapCallbacks::SnapActorToActor( false); }), FCanExecuteAction::CreateStatic( &FOhSnapCallbacks::SnapActorToActor_CanExecute) );
+
+    ActionList.MapAction( Commands.SnapAToB, FExecuteAction::CreateLambda([] ()
+    {
+    	UOhSnapSettings* Settings = GetMutableDefault<UOhSnapSettings>();
+		FOhSnapCallbacks::SnapActorToActor(Settings->bIncludeTranslation, Settings->bIncludeRotation, false);
+    }), FCanExecuteAction::CreateStatic( &FOhSnapCallbacks::SnapActorToActor_CanExecute) );
+	
+    ActionList.MapAction( Commands.SnapBToA, FExecuteAction::CreateStatic([] ()
+    {
+    	UOhSnapSettings* Settings = GetMutableDefault<UOhSnapSettings>();
+		FOhSnapCallbacks::SnapActorToActor(Settings->bIncludeTranslation, Settings->bIncludeRotation, true);
+    }), FCanExecuteAction::CreateStatic( &FOhSnapCallbacks::SnapActorToActor_CanExecute) );
 }
 
 void FOhSnapModule::RegisterSnapButtons()
