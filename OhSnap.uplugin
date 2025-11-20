@@ -2,9 +2,9 @@
 	"FileVersion": 3,
 	"Version": 1,
 	"VersionName": "1.0",
-	"FriendlyName": "OhSnap",
-	"Description": "A simple plugin that adds snapping selections to the Level Editor",
-	"Category": "Other",
+	"FriendlyName": "Oh, Snap!",
+	"Description": "A simple plugin that adds actor to actor snapping to the Level Editor.",
+	"Category": "Editor",
 	"CreatedBy": "Jackson Hayes",
 	"CreatedByURL": "jacksonhayes.co",
 	"DocsURL": "",
@@ -18,7 +18,12 @@
 		{
 			"Name": "OhSnap",
             "Type": "Editor",
-			"LoadingPhase": "Default"
+			"LoadingPhase": "Default",
+			"PlatformAllowList": [
+				"Win64",
+				"Linux",
+				"Mac"
+			]
 		}
 	]
 }
