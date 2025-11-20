@@ -70,7 +70,6 @@ void FOhSnapCallbacks::SnapActorToActor(bool bTranslation, bool bRotation, bool 
 
 bool FOhSnapCallbacks::SnapActorToActor_CanExecute()
 {
-	UE_LOG(LogTemp, Log, TEXT("SnapActorToActor_CanExecute"));
 	UEditorActorSubsystem* EditorActorSubsystem = GEditor->GetEditorSubsystem<UEditorActorSubsystem>();
 	if (!EditorActorSubsystem)
 	{
@@ -142,7 +141,6 @@ void FOhSnapModule::RegisterSnapButtons()
 	UToolMenu* Menu = ToolMenus->ExtendMenu("LevelEditor.LevelEditorSceneOutliner.ContextMenu.SnapAlignSubMenu");
 	if (!Menu)
 	{
-		UE_LOG(LogTemp, Log, TEXT("OhSnap could not find LevelEditor.ActorContextMenu.SnapAlignSubMenu"));
 		return;
 	}
 	FToolMenuSection& Section = Menu->FindOrAddSection("SnapAlign");
@@ -176,8 +174,8 @@ void FOhSnapModule::RegisterSnapButtons()
 		
 		FString FirstActorLabel = SelectedActors[0]->GetActorLabel();
 		FString SecondActorLabel = SelectedActors[1]->GetActorLabel();
-		FString SnapAToBLabel = "Snap " + FirstActorLabel + " -> " + SecondActorLabel;
-		FString SnapBToALabel = "Snap " + SecondActorLabel + " -> " + FirstActorLabel;
+		FString SnapAToBLabel = "Snap to " + SecondActorLabel;
+		FString SnapBToALabel = "Snap to " + FirstActorLabel;
 		
 		InSection.AddEntry(FToolMenuEntry::InitMenuEntry(FName("Snap A to B"), FText::FromString(SnapAToBLabel), FText::FromString("Snaps the first actor to the second actor's transform"), FSlateIcon(), SnapAToBChoice));
 		InSection.AddEntry(FToolMenuEntry::InitMenuEntry(FName("Snap B to A"), FText::FromString(SnapBToALabel), FText::FromString("Snaps the second actor to the first actor's transform"), FSlateIcon(), SnapBToAChoice));
