@@ -1,3 +1,5 @@
+// Jackson Hayes 2025 All Rights Reserved.
+
 #include "OhSnapCommands.h"
 #include "Subsystems/EditorActorSubsystem.h"
 #include "LevelEditor.h"

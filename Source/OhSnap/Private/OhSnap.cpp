@@ -1,4 +1,4 @@
-// Copyright Epic Games, Inc. All Rights Reserved.
+// Jackson Hayes 2025 All Rights Reserved.
 
 #include "OhSnap.h"
 
@@ -15,10 +15,8 @@ static const FName OhSnapName("OhSnapMenu");
 
 void FOhSnapModule::StartupModule()
 {
-	FLevelEditorModule& LevelEditorModule = FModuleManager::LoadModuleChecked<FLevelEditorModule>("LevelEditor");
 	FOhSnapCommands::Register();
-	BindGlobalOhSnapCommands();
-	LevelEditorModule.GetGlobalLevelEditorActions()->Append(CommandList.ToSharedRef());
+	RegisterGlobalOhSnapCommands();
 
 	UToolMenus::RegisterStartupCallback(FSimpleMulticastDelegate::FDelegate::CreateRaw(this, &FOhSnapModule::RegisterSnapButtons));
 }
@@ -28,15 +26,14 @@ void FOhSnapModule::ShutdownModule()
 	FOhSnapCommands::Unregister();
 }
 
-void FOhSnapModule::BindGlobalOhSnapCommands()
+void FOhSnapModule::RegisterGlobalOhSnapCommands()
 {
-    check( !CommandList.IsValid() );
-
-    CommandList = MakeShareable( new FUICommandList );
+	FLevelEditorModule& LevelEditorModule = FModuleManager::LoadModuleChecked<FLevelEditorModule>("LevelEditor");
+	TSharedRef<FUICommandList> LECommandList = LevelEditorModule.GetGlobalLevelEditorActions();
+    FUICommandList& ActionList = *LECommandList;
 
     const FOhSnapCommands& Commands = FOhSnapCommands::Get();
-    FUICommandList& ActionList = *CommandList;
-
+	
     ActionList.MapAction( Commands.SnapAToB, FExecuteAction::CreateLambda([] ()
     {
     	UOhSnapSettings* Settings = GetMutableDefault<UOhSnapSettings>();

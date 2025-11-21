@@ -1,4 +1,4 @@
-// Copyright Epic Games, Inc. All Rights Reserved.
+// Jackson Hayes 2025 All Rights Reserved.
 
 #pragma once
 
@@ -14,7 +14,5 @@ public:
     void RegisterSnapButtons();
     void UnregisterSnapButtons();
     
-    void BindGlobalOhSnapCommands();
-private:
-    TSharedPtr<FUICommandList> CommandList;
+    void RegisterGlobalOhSnapCommands();
 };

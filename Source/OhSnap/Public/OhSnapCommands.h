@@ -1,3 +1,7 @@
+// Jackson Hayes 2025 All Rights Reserved.
+
+#pragma once
+
 #include "Framework/Commands/Commands.h"
 
 class FOhSnapCommands : public TCommands<FOhSnapCommands>

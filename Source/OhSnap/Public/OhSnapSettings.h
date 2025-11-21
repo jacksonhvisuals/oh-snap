@@ -1,3 +1,7 @@
+// Jackson Hayes 2025 All Rights Reserved.
+
+#pragma once
+
 #include "UObject/Object.h"
 #include "OhSnapSettings.generated.h"
 

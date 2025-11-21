@@ -1,4 +1,4 @@
-// Copyright Epic Games, Inc. All Rights Reserved.
+// Jackson Hayes 2025 All Rights Reserved.
 
 using UnrealBuildTool;
 
@@ -12,14 +12,14 @@ public class OhSnap : ModuleRules
 			new string[] {
 				// ... add public include paths required here ...
 			}
-			);
+		);
 				
 		
 		PrivateIncludePaths.AddRange(
 			new string[] {
 				// ... add other private include paths required here ...
 			}
-			);
+		);
 			
 		
 		PublicDependencyModuleNames.AddRange(
@@ -30,7 +30,7 @@ public class OhSnap : ModuleRules
 				"Engine",
 				"DeveloperSettings"
 			}
-			);
+		);
 			
 		
 		PrivateDependencyModuleNames.AddRange(
@@ -43,7 +43,7 @@ public class OhSnap : ModuleRules
 				"ToolMenus",
 				"UnrealEd"
 			}
-			);
+		);
 		
 		
 		DynamicallyLoadedModuleNames.AddRange(
@@ -51,6 +51,6 @@ public class OhSnap : ModuleRules
 			{
 				// ... add any modules that your module loads dynamically here ...
 			}
-			);
+		);
 	}
 }

@@ -1,3 +1,7 @@
+// Jackson Hayes 2025 All Rights Reserved.
+
+#pragma once
+
 class OHSNAP_API FOhSnapCallbacks
 {
 public:
