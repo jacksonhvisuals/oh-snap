@@ -1,11 +1,38 @@
-
-#include "OhSnapCallbacks.h"
 // Jackson Hayes 2025 All Rights Reserved.
 
+#include "OhSnapCallbacks.h"
 #include "Subsystems/EditorActorSubsystem.h"
+#include "Framework/Application/SlateApplication.h"
+#include "Interfaces/IMainFrameModule.h"
 
 void FOhSnapCallbacks::SnapActorToActor(bool bTranslation, bool bRotation, bool bReverse)
 {
+	if (FSlateApplication::Get().GetModifierKeys().IsAltDown())
+	{
+		UE_LOGFMT(LogTemp, Log, "Alt was held down!");
+		// TODO: "inline" component selection UI
+		
+		/*   |  Snapping options (Oh Snap!)
+		 *   |  
+		 *   |  Translation
+		 *   |  [ X ][ Y ][ Z ]
+		 *   |  Rotation
+		 *   |  [ X ][ Y ][ Z ]
+		 *   |  Scale
+		 *   |  [ X ][ Y ][ Z ]
+		 *   |
+		 *   |  [ ] Make default
+		 *   |  
+		 *   |          [ Cancel ][ Confirm ]
+		 */  
+		
+		
+		// - in UI, read from EditorPreferences, populate checkboxes
+		// - on modification, add checkbox for whether this is temporary just for current operation, or should save
+		// - on "Confirm Pressed" - dismiss UI, save to EditorConfig, and run operation with provided settings.
+		
+	}
+
 	UEditorActorSubsystem* EditorActorSubsystem = GEditor->GetEditorSubsystem<UEditorActorSubsystem>();
 	if (!EditorActorSubsystem)
 	{
