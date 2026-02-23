@@ -6,6 +6,7 @@
 #include "OhSnapCallbacks.h"
 #include "OhSnapCommands.h"
 #include "OhSnapSettings.h"
+#include "OhSnapUtilities.h"
 #include "ToolMenus.h"
 #include "Engine/DeveloperSettings.h"
 #include "Subsystems/EditorActorSubsystem.h"
@@ -36,14 +37,14 @@ void FOhSnapModule::RegisterGlobalOhSnapCommands()
 	
     ActionList.MapAction( Commands.SnapAToB, FExecuteAction::CreateLambda([] ()
     {
-    	UOhSnapSettings* Settings = GetMutableDefault<UOhSnapSettings>();
-		FOhSnapCallbacks::SnapActorToActor(Settings->bIncludeTranslation, Settings->bIncludeRotation, false);
+    	FSnapTransformOptions Options = OhSnapUtils::LoadSettings();
+		FOhSnapCallbacks::SnapActorToActor(Options);
     }), FCanExecuteAction::CreateStatic( &FOhSnapCallbacks::SnapActorToActor_CanExecute) );
 	
     ActionList.MapAction( Commands.SnapBToA, FExecuteAction::CreateStatic([] ()
     {
-    	UOhSnapSettings* Settings = GetMutableDefault<UOhSnapSettings>();
-		FOhSnapCallbacks::SnapActorToActor(Settings->bIncludeTranslation, Settings->bIncludeRotation, true);
+    	FSnapTransformOptions Options = OhSnapUtils::LoadSettings();
+		FOhSnapCallbacks::SnapActorToActor(Options);
     }), FCanExecuteAction::CreateStatic( &FOhSnapCallbacks::SnapActorToActor_CanExecute) );
 }
 
@@ -61,14 +62,14 @@ void FOhSnapModule::RegisterSnapButtons()
 	{
 		FToolUIActionChoice SnapAToBChoice(FExecuteAction::CreateLambda([] ()
 		{
-			UOhSnapSettings* Settings = GetMutableDefault<UOhSnapSettings>();
-			FOhSnapCallbacks::SnapActorToActor(Settings->bIncludeTranslation, Settings->bIncludeRotation, false);
+			FSnapTransformOptions Options = OhSnapUtils::LoadSettings();
+			FOhSnapCallbacks::SnapActorToActor(Options);
 		}));
 		
 		FToolUIActionChoice SnapBToAChoice(FExecuteAction::CreateLambda([] ()
 		{
-			UOhSnapSettings* Settings = GetMutableDefault<UOhSnapSettings>();
-			FOhSnapCallbacks::SnapActorToActor(Settings->bIncludeTranslation, Settings->bIncludeRotation, true);
+			FSnapTransformOptions Options = OhSnapUtils::LoadSettings();
+			FOhSnapCallbacks::SnapActorToActor(Options);
 		}));
 
 		UEditorActorSubsystem* EditorActorSubsystem = GEditor->GetEditorSubsystem<UEditorActorSubsystem>();

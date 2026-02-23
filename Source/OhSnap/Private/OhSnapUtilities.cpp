@@ -3,6 +3,11 @@
 #include "Interfaces/IMainFrameModule.h"
 #include "Widgets/SSnapTransformPrefs.h"
 #include "OhSnapTypes.h"
+#include "Dialog/SCustomDialog.h"
+
+class SCustomDialog;
+
+#define LOCTEXT_NAMESPACE "OhSnap"
 
 FSnapTransformOptions OhSnapUtils::LoadSettings()
 {
@@ -34,12 +39,63 @@ TSharedRef<SWindow> OhSnapUtils::PresentPopup(TSharedRef<SWidget> InWidgetConten
 bool OhSnapUtils::GetTransformOptionsFromUser(FSnapTransformOptions& OutOptions)
 {
 	FSnapTransformOptions CurrentOptions = LoadSettings();
+	bool bSaveAsDefaults = false;
 	
-	// create a new slate widget that contains SSnapTransformPrefs
-	// + the checkbox & the confirm / cancel buttons
+	TSharedRef<SCustomDialog> SnappingOptionsDialog = SNew(SCustomDialog)
+		.Title(FText(LOCTEXT("OhSnap_GetSnappingOptions", "Snapping options")))
+		.Content()
+		[
+			SNew(SVerticalBox)
+			+ SVerticalBox::Slot()
+			[
+				SNew(SSnapTransformPreferences)
+				.TransformOptions(CurrentOptions)
+				.OnOptionsChanged_Lambda([&CurrentOptions] (const FSnapTransformOptions& InOptions)
+				{
+					CurrentOptions = InOptions;
+				})
+				
+			]
+			+ SVerticalBox::Slot()
+			[
+				SNew(SCheckBox)
+				.IsChecked({false})
+				.OnCheckStateChanged_Lambda([&bSaveAsDefaults] (ECheckBoxState InState)
+				{
+					bSaveAsDefaults = InState == ECheckBoxState::Checked;
+				})
+			]
+			
+			
+		]
+		.Buttons({
+			SCustomDialog::FButton(LOCTEXT("ConfirmSnappingOptions", "Confirm")),
+			SCustomDialog::FButton(LOCTEXT("Cancel", "Cancel"))
+	});
+
+	// show window and get result
+	const int32 Result = SnappingOptionsDialog->ShowModal();
+	const bool bWindowClosed = Result < 0;
+	const bool bSkipped = Result == 1;
 	
-	// if bMakeDefault is true, persist settings 
-	// OutOptions = Options;
-	// return true/false
-	return false;
+	if (bWindowClosed)
+	{
+		return false; // window closed
+	}
+
+	if (bSkipped)
+	{
+		return false; // user hit cancel
+	}
+	
+	OutOptions = CurrentOptions;
+	
+	if (bSaveAsDefaults)
+	{
+		SaveSettings(OutOptions);
+	}
+	
+	return true;
 }
+
+#undef LOCTEXT_NAMESPACE

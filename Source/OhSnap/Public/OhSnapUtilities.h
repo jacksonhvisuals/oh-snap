@@ -3,6 +3,7 @@
 
 class OhSnapUtils
 {
+public:
 	static FSnapTransformOptions LoadSettings();
 	static void SaveSettings(FSnapTransformOptions NewOptions);
 	

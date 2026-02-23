@@ -41,6 +41,7 @@ public class OhSnap : ModuleRules
 				"Slate",
 				"SlateCore",
 				"ToolMenus",
+				"ToolWidgets",
 				"UnrealEd"
 			}
 		);
