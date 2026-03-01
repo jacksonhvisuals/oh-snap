@@ -69,6 +69,28 @@ void STransformComponent::Construct(const FArguments& Args)
 			];
 	};
 
+	TSharedRef<SWidget> ChannelRow = SNullWidget::NullWidget;
+	if (Args._bCompactChannels)
+	{
+		ChannelRow = SNew(SHorizontalBox)
+			+ SHorizontalBox::Slot().AutoWidth().Padding(6.f, 0.f)
+			[ MakeChannelCheckBox(ETransformChannel::X) ]
+			+ SHorizontalBox::Slot().AutoWidth().Padding(6.f, 0.f)
+			[ MakeChannelCheckBox(ETransformChannel::Y) ]
+			+ SHorizontalBox::Slot().AutoWidth().Padding(6.f, 0.f)
+			[ MakeChannelCheckBox(ETransformChannel::Z) ];
+	}
+	else
+	{
+		ChannelRow = SNew(SHorizontalBox)
+			+ SHorizontalBox::Slot().FillWidth(1.f).HAlign(HAlign_Center)
+			[ MakeChannelCheckBox(ETransformChannel::X) ]
+			+ SHorizontalBox::Slot().FillWidth(1.f).HAlign(HAlign_Center)
+			[ MakeChannelCheckBox(ETransformChannel::Y) ]
+			+ SHorizontalBox::Slot().FillWidth(1.f).HAlign(HAlign_Center)
+			[ MakeChannelCheckBox(ETransformChannel::Z) ];
+	}
+
 	ChildSlot
 	[
 		SNew(SVerticalBox)
@@ -95,26 +117,7 @@ void STransformComponent::Construct(const FArguments& Args)
 			.HAlign(HAlign_Fill)
 			.Padding(12.f)
 			[
-				[&]() -> TSharedRef<SWidget>
-				{
-					if (Args._bCompactChannels)
-					{
-						return SNew(SHorizontalBox)
-							+ SHorizontalBox::Slot().AutoWidth().Padding(6.f, 0.f)
-							[ MakeChannelCheckBox(ETransformChannel::X) ]
-							+ SHorizontalBox::Slot().AutoWidth().Padding(6.f, 0.f)
-							[ MakeChannelCheckBox(ETransformChannel::Y) ]
-							+ SHorizontalBox::Slot().AutoWidth().Padding(6.f, 0.f)
-							[ MakeChannelCheckBox(ETransformChannel::Z) ];
-					}
-					return SNew(SHorizontalBox)
-						+ SHorizontalBox::Slot().FillWidth(1.f).HAlign(HAlign_Center)
-						[ MakeChannelCheckBox(ETransformChannel::X) ]
-						+ SHorizontalBox::Slot().FillWidth(1.f).HAlign(HAlign_Center)
-						[ MakeChannelCheckBox(ETransformChannel::Y) ]
-						+ SHorizontalBox::Slot().FillWidth(1.f).HAlign(HAlign_Center)
-						[ MakeChannelCheckBox(ETransformChannel::Z) ];
-				}()
+				ChannelRow
 			]
 		]
 	];
