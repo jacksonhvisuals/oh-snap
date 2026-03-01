@@ -9,14 +9,6 @@
 
 void FOhSnapCallbacks::SnapActorToActor(FSnapTransformOptions Options, bool bReverse)
 {
-	if (FSlateApplication::Get().GetModifierKeys().IsAltDown())
-	{
-		if (!OhSnapUtils::GetTransformOptionsFromUser(Options))
-		{
-			return;
-		}
-	}
-
 	UEditorActorSubsystem* EditorActorSubsystem = GEditor->GetEditorSubsystem<UEditorActorSubsystem>();
 	if (!EditorActorSubsystem)
 	{
@@ -42,6 +34,14 @@ void FOhSnapCallbacks::SnapActorToActor(FSnapTransformOptions Options, bool bRev
 	{
 		SourceActor = SelectedActors[1];
 		TargetActor = SelectedActors[0];
+	}
+
+	if (FSlateApplication::Get().GetModifierKeys().IsAltDown())
+	{
+		if (!OhSnapUtils::GetTransformOptionsFromUser(Options, TargetActor->GetActorLabel(), SourceActor->GetActorLabel()))
+		{
+			return;
+		}
 	}
 
 	const FTransform SourceTransform = SourceActor->GetTransform();

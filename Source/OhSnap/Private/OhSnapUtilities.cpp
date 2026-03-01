@@ -52,19 +52,75 @@ TSharedRef<SWindow> OhSnapUtils::PresentPopup(TSharedRef<SWidget> InWidgetConten
 	return Window;
 }
 
-bool OhSnapUtils::GetTransformOptionsFromUser(FSnapTransformOptions& OutOptions)
+bool OhSnapUtils::GetTransformOptionsFromUser(FSnapTransformOptions& OutOptions, const FString& TargetActorName, const FString& SourceActorName)
 {
 	FSnapTransformOptions CurrentOptions = LoadSettings();
 	bool bSaveAsDefaults = false;
-	
+
+	const bool bShowActorNames = !TargetActorName.IsEmpty() && !SourceActorName.IsEmpty();
+
 	TSharedRef<SCustomDialog> SnappingOptionsDialog = SNew(SCustomDialog)
 		.Title(FText(LOCTEXT("OhSnap_GetSnappingOptions", "Snapping options")))
 		.UseScrollBox(false)
 		.HAlignContent(HAlign_Fill)
-		.RootPadding(FMargin(16, 8))
+		.RootPadding(FMargin(8))
+		.ButtonAreaPadding(FMargin({20, 16, 4, 4}))
 		.Content()
 		[
 			SNew(SVerticalBox)
+			+ SVerticalBox::Slot()
+			.AutoHeight()
+			[
+				// Zero-height slot to enforce a minimum dialog width
+				SNew(SBox)
+				.MinDesiredWidth(340.f)
+			]
+			+ SVerticalBox::Slot()
+			.AutoHeight()
+			.Padding(0, 0, 0, 8)
+			.HAlign(HAlign_Left)
+			[
+				SNew(SBorder)
+				.BorderImage(FAppStyle::GetBrush("ToolPanel.GroupBorder"))
+				.Padding(FMargin(8, 6))
+				.Visibility(bShowActorNames ? EVisibility::Visible : EVisibility::Collapsed)
+				[
+					SNew(SHorizontalBox)
+					+ SHorizontalBox::Slot()
+					.AutoWidth()
+					.HAlign(HAlign_Left)
+					.VAlign(VAlign_Center)
+					[
+						SNew(STextBlock)
+						.Text(FText::FromString(TargetActorName))
+						.Font(FCoreStyle::GetDefaultFontStyle("Bold", 9))
+						.OverflowPolicy(ETextOverflowPolicy::Ellipsis)
+						.ColorAndOpacity(FSlateColor::UseForeground())
+					]
+					+ SHorizontalBox::Slot()
+					.AutoWidth()
+					.HAlign(HAlign_Center)
+					.VAlign(VAlign_Center)
+					.Padding(10, 0)
+					[
+						SNew(STextBlock)
+						.Text(FText::FromString(TEXT("\u2192")))
+						.Font(FCoreStyle::GetDefaultFontStyle("Regular", 12))
+						.ColorAndOpacity(FSlateColor::UseSubduedForeground())
+					]
+					+ SHorizontalBox::Slot()
+					.AutoWidth()
+					.HAlign(HAlign_Left)
+					.VAlign(VAlign_Center)
+					[
+						SNew(STextBlock)
+						.Text(FText::FromString(SourceActorName))
+						.Font(FCoreStyle::GetDefaultFontStyle("Bold", 9))
+						.OverflowPolicy(ETextOverflowPolicy::Ellipsis)
+						.ColorAndOpacity(FSlateColor::UseForeground())
+					]
+				]
+			]
 			+ SVerticalBox::Slot()
 			.HAlign(HAlign_Fill)
 			.AutoHeight()

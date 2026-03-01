@@ -10,5 +10,5 @@ public:
 	static TSharedRef<SWindow> PresentPopup(TSharedRef<SWidget> InWidgetContent);
 	
 	/** Returns whether the user pressed Confirm or Cancel */
-	static bool GetTransformOptionsFromUser(FSnapTransformOptions& OutOptions);
+	static bool GetTransformOptionsFromUser(FSnapTransformOptions& OutOptions, const FString& TargetActorName = "", const FString& SourceActorName = "");
 };
