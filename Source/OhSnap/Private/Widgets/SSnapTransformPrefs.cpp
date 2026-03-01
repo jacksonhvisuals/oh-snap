@@ -97,20 +97,26 @@ void STransformComponent::Construct(const FArguments& Args)
 			[
 				SNew(SHorizontalBox)
 				+ SHorizontalBox::Slot()
-				.FillWidth(1.f)
-				.HAlign(HAlign_Center)
+				.AutoWidth(Args._bCompactChannels)
+				.FillWidth(Args._bCompactChannels ? 0.f : 1.f)
+				.HAlign(Args._bCompactChannels ? HAlign_Left : HAlign_Center)
+				.Padding(Args._bCompactChannels ? FMargin(6.f, 0.f) : FMargin(0.f))
 				[
 					MakeChannelCheckBox(ETransformChannel::X)
 				]
 				+ SHorizontalBox::Slot()
-				.FillWidth(1.f)
-				.HAlign(HAlign_Center)
+				.AutoWidth(Args._bCompactChannels)
+				.FillWidth(Args._bCompactChannels ? 0.f : 1.f)
+				.HAlign(Args._bCompactChannels ? HAlign_Left : HAlign_Center)
+				.Padding(Args._bCompactChannels ? FMargin(6.f, 0.f) : FMargin(0.f))
 				[
 					MakeChannelCheckBox(ETransformChannel::Y)
 				]
 				+ SHorizontalBox::Slot()
-				.FillWidth(1.f)
-				.HAlign(HAlign_Center)
+				.AutoWidth(Args._bCompactChannels)
+				.FillWidth(Args._bCompactChannels ? 0.f : 1.f)
+				.HAlign(Args._bCompactChannels ? HAlign_Left : HAlign_Center)
+				.Padding(Args._bCompactChannels ? FMargin(6.f, 0.f) : FMargin(0.f))
 				[
 					MakeChannelCheckBox(ETransformChannel::Z)
 				]
@@ -153,6 +159,7 @@ void SSnapTransformPreferences::Construct(const FArguments& Args)
 {
 	Options = Args._TransformOptions;
 	OnOptionsChanged = Args._OnOptionsChanged;
+	bCompactChannels = Args._bCompactChannels;
 
 	ChildSlot
 	[
@@ -172,6 +179,7 @@ void SSnapTransformPreferences::Construct(const FArguments& Args)
 		]
 		+ SVerticalBox::Slot()
 		.AutoHeight()
+		.Padding(0, 0, 8, 0)
 		.HAlign(HAlign_Fill)
 		[
 			CreateTransformComponentWidget(ETransformComponent::S)
@@ -205,6 +213,7 @@ TSharedRef<SWidget> SSnapTransformPreferences::CreateTransformComponentWidget(ET
 	return SNew(STransformComponent)
 		.Label(ChannelName)
 		.Option(InitialOption)
+		.bCompactChannels(bCompactChannels)
 		.OnComponentChanged_Lambda([this, ComponentType](const FTransformComponentOption& NewOption)
 		{
 			switch (ComponentType)

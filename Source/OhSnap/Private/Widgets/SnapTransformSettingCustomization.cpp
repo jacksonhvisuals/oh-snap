@@ -74,7 +74,7 @@ void FSnapTransformSettingCustomization::CustomizeDetails(IDetailLayoutBuilder& 
 				SNew(SVerticalBox)
 				+ SVerticalBox::Slot()
 				.AutoHeight()
-				.Padding(0.0f, 12.0f, 0.0f, 0.0f)
+				.Padding(0.0f, 6.0f)
 				[
 					SNew(SHorizontalBox)
 					+ SHorizontalBox::Slot()

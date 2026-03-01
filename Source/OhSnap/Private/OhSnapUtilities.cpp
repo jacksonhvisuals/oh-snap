@@ -79,7 +79,7 @@ bool OhSnapUtils::GetTransformOptionsFromUser(FSnapTransformOptions& OutOptions)
 			]
 			+ SVerticalBox::Slot()
 			.AutoHeight()
-			.Padding(0, 16, 0, 8)
+			.Padding(0, 8)
 			[
 				SNew(SSeparator)
 				.Orientation(Orient_Horizontal)
