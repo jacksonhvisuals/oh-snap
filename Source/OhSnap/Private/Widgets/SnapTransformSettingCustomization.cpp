@@ -82,7 +82,6 @@ void FSnapTransformSettingCustomization::CustomizeDetails(IDetailLayoutBuilder& 
 					[
 						SNew(SSnapTransformPreferences)
 						.TransformOptions(Options)
-						.bCompactChannels(true)
 						.OnOptionsChanged_Lambda([](const FSnapTransformOptions& NewOptions)
 						{
 							OhSnapUtils::SaveSettings(NewOptions);

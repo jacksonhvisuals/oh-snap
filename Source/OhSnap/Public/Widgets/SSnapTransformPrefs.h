@@ -7,7 +7,6 @@ class STransformComponent : public SCompoundWidget
 		SLATE_ARGUMENT(FText, Label)
 		SLATE_ARGUMENT(FTransformComponentOption, Option)
 		SLATE_EVENT(FOnTransformComponentChanged, OnComponentChanged)
-		SLATE_ARGUMENT(bool, bCompactChannels)
 	SLATE_END_ARGS()
 
 	virtual void Construct(const FArguments& Args);

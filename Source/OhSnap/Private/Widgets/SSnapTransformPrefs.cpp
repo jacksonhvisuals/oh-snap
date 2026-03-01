@@ -69,33 +69,19 @@ void STransformComponent::Construct(const FArguments& Args)
 			];
 	};
 
-	TSharedRef<SWidget> ChannelRow = SNullWidget::NullWidget;
-	if (Args._bCompactChannels)
-	{
-		ChannelRow = SNew(SHorizontalBox)
-			+ SHorizontalBox::Slot().AutoWidth().Padding(6.f, 0.f)
-			[ MakeChannelCheckBox(ETransformChannel::X) ]
-			+ SHorizontalBox::Slot().AutoWidth().Padding(6.f, 0.f)
-			[ MakeChannelCheckBox(ETransformChannel::Y) ]
-			+ SHorizontalBox::Slot().AutoWidth().Padding(6.f, 0.f)
-			[ MakeChannelCheckBox(ETransformChannel::Z) ];
-	}
-	else
-	{
-		ChannelRow = SNew(SHorizontalBox)
-			+ SHorizontalBox::Slot().FillWidth(1.f).HAlign(HAlign_Center)
-			[ MakeChannelCheckBox(ETransformChannel::X) ]
-			+ SHorizontalBox::Slot().FillWidth(1.f).HAlign(HAlign_Center)
-			[ MakeChannelCheckBox(ETransformChannel::Y) ]
-			+ SHorizontalBox::Slot().FillWidth(1.f).HAlign(HAlign_Center)
-			[ MakeChannelCheckBox(ETransformChannel::Z) ];
-	}
+	TSharedRef<SWidget> ChannelRow = SNew(SHorizontalBox)
+		+ SHorizontalBox::Slot().AutoWidth().Padding(8.f, 0.f)
+		[ MakeChannelCheckBox(ETransformChannel::X) ]
+		+ SHorizontalBox::Slot().AutoWidth().Padding(8.f, 0.f)
+		[ MakeChannelCheckBox(ETransformChannel::Y) ]
+		+ SHorizontalBox::Slot().AutoWidth().Padding(8.f, 0.f)
+		[ MakeChannelCheckBox(ETransformChannel::Z) ];
 
 	ChildSlot
 	[
 		SNew(SVerticalBox)
 		+ SVerticalBox::Slot()
-		.Padding(0, 6)
+		.Padding(4, 4, 0, 2)
 		.AutoHeight()
 		[
 			SNew(SCheckBox)
@@ -177,7 +163,6 @@ void SSnapTransformPreferences::Construct(const FArguments& Args)
 		]
 		+ SVerticalBox::Slot()
 		.AutoHeight()
-		.Padding(0, 0, 8, 0)
 		.HAlign(HAlign_Fill)
 		[
 			CreateTransformComponentWidget(ETransformComponent::S)
@@ -211,7 +196,6 @@ TSharedRef<SWidget> SSnapTransformPreferences::CreateTransformComponentWidget(ET
 	return SNew(STransformComponent)
 		.Label(ChannelName)
 		.Option(InitialOption)
-		.bCompactChannels(bCompactChannels)
 		.OnComponentChanged_Lambda([this, ComponentType](const FTransformComponentOption& NewOption)
 		{
 			switch (ComponentType)
