@@ -1,3 +1,5 @@
+// Copyright Jackson Hayes. All Rights Reserved.
+
 #include "Widgets/SSnapTransformPrefs.h"
 
 #include "Misc/AxisDisplayInfo.h"

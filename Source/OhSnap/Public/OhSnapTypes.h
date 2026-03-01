@@ -1,3 +1,5 @@
+// Jackson Hayes 2026 All Rights Reserved.
+
 #pragma once
 #include "Templates/Tuple.h"
 #include "OhSnapTypes.generated.h"

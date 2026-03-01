@@ -1,3 +1,5 @@
+// Copyright Jackson Hayes. All Rights Reserved.
+
 #include "OhSnapUtilities.h"
 
 #include "OhSnapLog.h"

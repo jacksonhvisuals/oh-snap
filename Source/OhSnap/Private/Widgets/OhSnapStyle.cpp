@@ -1,3 +1,5 @@
+// Copyright Jackson Hayes. All Rights Reserved.
+
 #include "Widgets/OhSnapStyle.h"
 #include "Brushes/SlateBoxBrush.h"
 #include "Styling/SlateStyleRegistry.h"

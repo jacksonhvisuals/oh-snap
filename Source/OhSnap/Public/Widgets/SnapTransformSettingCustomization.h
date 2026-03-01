@@ -1,4 +1,4 @@
-// Copyright Jackson Hayes. All Rights Reserved.
+// Jackson Hayes 2026 All Rights Reserved.
 
 #pragma once
 
