@@ -58,37 +58,7 @@ void FOhSnapStyle::Initialize()
 	// const FString PluginContentDir = Plugin->GetContentDir();
 	// StyleSet->SetContentRoot(PluginContentDir);
 	StyleSet->SetCoreContentRoot(FPaths::EngineContentDir() / TEXT("Slate"));
-	const FTextBlockStyle& NormalText = FAppStyle::Get().GetWidgetStyle<FTextBlockStyle>("NormalText");
 
-	{ // Checkboxes
-		FCheckBoxStyle RedCheckStyle =
-			MakeTintableCheckBoxStyle(
-				FLinearColor(.20f, 0.10f, 0.10f, 1.f), // background
-				FLinearColor(0.85f, 0.25f, 0.25f, 1.f), // border
-				1.0f,
-				4.0f
-			);
-		FCheckBoxStyle GreenCheckStyle =
-			MakeTintableCheckBoxStyle(
-				FLinearColor(.10f, 0.20f, 0.10f, 1.f), // background
-				FLinearColor(0.25f, 0.85f, 0.25f, 1.f), // border
-				1.0f,
-				4.0f
-			);
-
-		FCheckBoxStyle BlueCheckStyle =
-			MakeTintableCheckBoxStyle(
-				FLinearColor(.10f, 0.10f, 0.20f, 1.f), // background
-				FLinearColor(0.25f, 0.25f, 0.85f, 1.f), // border
-				1.0f,
-				4.0f
-			);
-		
-		StyleSet->Set("CheckBox.X", RedCheckStyle);
-		StyleSet->Set("CheckBox.Y", GreenCheckStyle);
-		StyleSet->Set("CheckBox.Z", BlueCheckStyle);
-	}
-	
 	{ // Panel brushes
 		StyleSet->Set("Background.Dark",	new FSlateRoundedBoxBrush(FLinearColor(0.01f, 0.01f, 0.01f, 1.0f), 8.f, FStyleColors::Transparent, 1.f));
 	}

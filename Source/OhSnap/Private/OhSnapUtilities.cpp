@@ -59,6 +59,9 @@ bool OhSnapUtils::GetTransformOptionsFromUser(FSnapTransformOptions& OutOptions)
 	
 	TSharedRef<SCustomDialog> SnappingOptionsDialog = SNew(SCustomDialog)
 		.Title(FText(LOCTEXT("OhSnap_GetSnappingOptions", "Snapping options")))
+		.UseScrollBox(false)
+		.HAlignContent(HAlign_Fill)
+		.RootPadding(FMargin(16, 8))
 		.Content()
 		[
 			SNew(SVerticalBox)
@@ -106,7 +109,7 @@ bool OhSnapUtils::GetTransformOptionsFromUser(FSnapTransformOptions& OutOptions)
 			
 		]
 		.Buttons({
-			SCustomDialog::FButton(LOCTEXT("ConfirmSnappingOptions", "Confirm"), FSimpleDelegate(), SCustomDialog::EButtonRole::Confirm),
+			SCustomDialog::FButton(LOCTEXT("ConfirmSnappingOptions", "Confirm"), FSimpleDelegate(), SCustomDialog::EButtonRole::Confirm).SetPrimary(true),
 			SCustomDialog::FButton(LOCTEXT("Cancel", "Cancel"), FSimpleDelegate(), SCustomDialog::EButtonRole::Cancel),
 	});
 

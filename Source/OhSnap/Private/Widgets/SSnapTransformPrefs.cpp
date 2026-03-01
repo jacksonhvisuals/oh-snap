@@ -1,5 +1,7 @@
 #include "Widgets/SSnapTransformPrefs.h"
 
+#include "Misc/AxisDisplayInfo.h"
+#include "Styling/AppStyle.h"
 #include "Widgets/OhSnapStyle.h"
 
 void STransformComponent::Construct(const FArguments& Args)
@@ -9,37 +11,40 @@ void STransformComponent::Construct(const FArguments& Args)
 	OnChanged = Args._OnComponentChanged;
 
 	const FSlateBrush* DarkPanelBrush = FOhSnapStyle::Get()->GetBrush("Background.Dark");
+	const FSlateBrush* NarrowDecoratorBrush = FAppStyle::Get().GetBrush("NumericEntrySpinBox.NarrowDecorator");
 
-	auto MakeChannelCheckBox = [this](ETransformChannel Channel) -> TSharedRef<SCheckBox>
+	auto MakeChannelCheckBox = [this, NarrowDecoratorBrush](ETransformChannel Channel) -> TSharedRef<SWidget>
 	{
 		bool bIsChecked;
-		FName CheckBoxStyleName;
+		FText AxisLabel;
+		FLinearColor AxisColor;
 		switch (Channel)
 		{
 		case ETransformChannel::X:
 			bIsChecked = OptionState.X;
-			CheckBoxStyleName = "CheckBox.X";
+			AxisLabel = FText::FromString("X");
+			AxisColor = AxisDisplayInfo::GetAxisColor(EAxisList::X);
 			break;
 		case ETransformChannel::Y:
 			bIsChecked = OptionState.Y;
-			CheckBoxStyleName = "CheckBox.Y";
+			AxisLabel = FText::FromString("Y");
+			AxisColor = AxisDisplayInfo::GetAxisColor(EAxisList::Y);
 			break;
 		case ETransformChannel::Z:
 			bIsChecked = OptionState.Z;
-			CheckBoxStyleName = "CheckBox.Z";
+			AxisLabel = FText::FromString("Z");
+			AxisColor = AxisDisplayInfo::GetAxisColor(EAxisList::Z);
 			break;
 		default:
 			bIsChecked = false;
-			CheckBoxStyleName = "CheckBox.X";
+			AxisLabel = FText::FromString("X");
+			AxisColor = AxisDisplayInfo::GetAxisColor(EAxisList::X);
 			break;
 		}
-
-		const FCheckBoxStyle& CheckBoxStyle = FOhSnapStyle::Get()->GetWidgetStyle<FCheckBoxStyle>(CheckBoxStyleName);
 
 		TSharedPtr<SCheckBox> CheckBoxWidget;
 		SAssignNew(CheckBoxWidget, SCheckBox)
 			.IsChecked(bIsChecked ? ECheckBoxState::Checked : ECheckBoxState::Unchecked)
-			.Style(&CheckBoxStyle)
 			.IsEnabled(OptionState.bEnabled)
 			.OnCheckStateChanged_Lambda([this, Channel](ECheckBoxState NewState)
 			{
@@ -47,18 +52,34 @@ void STransformComponent::Construct(const FArguments& Args)
 			});
 
 		ChannelCheckBoxes.Add(CheckBoxWidget);
-		return CheckBoxWidget.ToSharedRef();
+
+		return SNew(SHorizontalBox)
+			+ SHorizontalBox::Slot()
+			.AutoWidth()
+			[
+				SNew(SBorder)
+				.Visibility(EVisibility::HitTestInvisible)
+				.BorderImage(NarrowDecoratorBrush)
+				.BorderBackgroundColor(AxisColor)
+			]
+			+ SHorizontalBox::Slot()
+			.AutoWidth()
+			[
+				CheckBoxWidget.ToSharedRef()
+			];
 	};
 
 	ChildSlot
 	[
 		SNew(SVerticalBox)
 		+ SVerticalBox::Slot()
+		.Padding(0, 6)
 		.AutoHeight()
 		[
 			SNew(SCheckBox)
 			.IsChecked(OptionState.bEnabled ? ECheckBoxState::Checked : ECheckBoxState::Unchecked)
 			.OnCheckStateChanged(this, &STransformComponent::OnSectionCheckStateChanged)
+			.Padding(4.f)
 			.Content()
 			[
 				SNew(STextBlock)
@@ -144,6 +165,7 @@ void SSnapTransformPreferences::Construct(const FArguments& Args)
 		]
 		+ SVerticalBox::Slot()
 		.AutoHeight()
+		.Padding(0, 8)
 		.HAlign(HAlign_Fill)
 		[
 			CreateTransformComponentWidget(ETransformComponent::R)
