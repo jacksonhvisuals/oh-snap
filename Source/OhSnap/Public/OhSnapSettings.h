@@ -19,6 +19,10 @@ class UOhSnapSettings
 public:
 	UOhSnapSettings(const FObjectInitializer& ObjectInitializer);
 	
-	UPROPERTY(Config, EditAnywhere, Category="Oh Snap", meta=(DisplayName="Snapping Transform Options"))
+	UPROPERTY(Config, EditAnywhere, Category="Actor to Actor", meta=(DisplayName="Alt Opens Inline Dialog",
+		ToolTip="When enabled, holding Alt while triggering a snap opens the inline options dialog. Disable this if your snap shortcut already includes the Alt key."))
+	bool bShowInlineDialog = true;
+
+	UPROPERTY(Config, EditAnywhere, Category="Actor to Actor", meta=(DisplayName="Snapping Transform Options"))
 	FSnapTransformOptions SnapTransformOptions;
 };

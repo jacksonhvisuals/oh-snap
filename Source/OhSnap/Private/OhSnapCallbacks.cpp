@@ -2,6 +2,7 @@
 
 #include "OhSnapCallbacks.h"
 
+#include "OhSnapSettings.h"
 #include "OhSnapUtilities.h"
 #include "Subsystems/EditorActorSubsystem.h"
 #include "Framework/Application/SlateApplication.h"
@@ -36,7 +37,8 @@ void FOhSnapCallbacks::SnapActorToActor(FSnapTransformOptions Options, bool bRev
 		TargetActor = SelectedActors[0];
 	}
 
-	if (FSlateApplication::Get().GetModifierKeys().IsAltDown())
+	const UOhSnapSettings* Settings = GetDefault<UOhSnapSettings>();
+	if (Settings->bShowInlineDialog && FSlateApplication::Get().GetModifierKeys().IsAltDown())
 	{
 		if (!OhSnapUtils::GetTransformOptionsFromUser(Options, TargetActor->GetActorLabel(), SourceActor->GetActorLabel()))
 		{
