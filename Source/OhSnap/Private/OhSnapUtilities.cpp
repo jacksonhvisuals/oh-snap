@@ -78,7 +78,13 @@ bool OhSnapUtils::GetTransformOptionsFromUser(FSnapTransformOptions& OutOptions)
 				
 			]
 			+ SVerticalBox::Slot()
-			.Padding(0, 8)
+			.AutoHeight()
+			.Padding(0, 16, 0, 8)
+			[
+				SNew(SSeparator)
+				.Orientation(Orient_Horizontal)
+			]
+			+ SVerticalBox::Slot()
 			.AutoHeight()
 			[
 				SNew(SHorizontalBox)
@@ -109,13 +115,13 @@ bool OhSnapUtils::GetTransformOptionsFromUser(FSnapTransformOptions& OutOptions)
 			
 		]
 		.Buttons({
-			SCustomDialog::FButton(LOCTEXT("ConfirmSnappingOptions", "Confirm"), FSimpleDelegate(), SCustomDialog::EButtonRole::Confirm).SetPrimary(true),
 			SCustomDialog::FButton(LOCTEXT("Cancel", "Cancel"), FSimpleDelegate(), SCustomDialog::EButtonRole::Cancel),
+			SCustomDialog::FButton(LOCTEXT("ConfirmSnappingOptions", "Confirm"), FSimpleDelegate(), SCustomDialog::EButtonRole::Confirm).SetPrimary(true),
 	});
 
-	// Show window and get result. Result < 0 = closed, 0 = Confirm, 1 = Cancel
+	// Show window and get result. Result < 0 = closed, 0 = Cancel, 1 = Confirm
 	const int32 Result = SnappingOptionsDialog->ShowModal();
-	if (Result != 0)
+	if (Result != 1)
 	{
 		return false;
 	}
