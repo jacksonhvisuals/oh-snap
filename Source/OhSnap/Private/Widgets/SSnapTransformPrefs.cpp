@@ -95,31 +95,26 @@ void STransformComponent::Construct(const FArguments& Args)
 			.HAlign(HAlign_Fill)
 			.Padding(12.f)
 			[
-				SNew(SHorizontalBox)
-				+ SHorizontalBox::Slot()
-				.AutoWidth(Args._bCompactChannels)
-				.FillWidth(Args._bCompactChannels ? 0.f : 1.f)
-				.HAlign(Args._bCompactChannels ? HAlign_Left : HAlign_Center)
-				.Padding(Args._bCompactChannels ? FMargin(6.f, 0.f) : FMargin(0.f))
-				[
-					MakeChannelCheckBox(ETransformChannel::X)
-				]
-				+ SHorizontalBox::Slot()
-				.AutoWidth(Args._bCompactChannels)
-				.FillWidth(Args._bCompactChannels ? 0.f : 1.f)
-				.HAlign(Args._bCompactChannels ? HAlign_Left : HAlign_Center)
-				.Padding(Args._bCompactChannels ? FMargin(6.f, 0.f) : FMargin(0.f))
-				[
-					MakeChannelCheckBox(ETransformChannel::Y)
-				]
-				+ SHorizontalBox::Slot()
-				.AutoWidth(Args._bCompactChannels)
-				.FillWidth(Args._bCompactChannels ? 0.f : 1.f)
-				.HAlign(Args._bCompactChannels ? HAlign_Left : HAlign_Center)
-				.Padding(Args._bCompactChannels ? FMargin(6.f, 0.f) : FMargin(0.f))
-				[
-					MakeChannelCheckBox(ETransformChannel::Z)
-				]
+				[&]() -> TSharedRef<SWidget>
+				{
+					if (Args._bCompactChannels)
+					{
+						return SNew(SHorizontalBox)
+							+ SHorizontalBox::Slot().AutoWidth().Padding(6.f, 0.f)
+							[ MakeChannelCheckBox(ETransformChannel::X) ]
+							+ SHorizontalBox::Slot().AutoWidth().Padding(6.f, 0.f)
+							[ MakeChannelCheckBox(ETransformChannel::Y) ]
+							+ SHorizontalBox::Slot().AutoWidth().Padding(6.f, 0.f)
+							[ MakeChannelCheckBox(ETransformChannel::Z) ];
+					}
+					return SNew(SHorizontalBox)
+						+ SHorizontalBox::Slot().FillWidth(1.f).HAlign(HAlign_Center)
+						[ MakeChannelCheckBox(ETransformChannel::X) ]
+						+ SHorizontalBox::Slot().FillWidth(1.f).HAlign(HAlign_Center)
+						[ MakeChannelCheckBox(ETransformChannel::Y) ]
+						+ SHorizontalBox::Slot().FillWidth(1.f).HAlign(HAlign_Center)
+						[ MakeChannelCheckBox(ETransformChannel::Z) ];
+				}()
 			]
 		]
 	];
