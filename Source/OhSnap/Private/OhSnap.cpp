@@ -67,49 +67,50 @@ void FOhSnapModule::RegisterGlobalOhSnapCommands()
 
 void FOhSnapModule::RegisterSnapButtons()
 {
+	auto AddOhSnapEntries = [](UToolMenu* Menu)
+	{
+		FToolMenuSection& Section = Menu->FindOrAddSection("SnapAlign");
+		Section.InsertPosition = FToolMenuInsert("SnapOriginToGrid", EToolMenuInsertType::Before);
+		Section.AddDynamicEntry("OhSnapEntry", FNewToolMenuSectionDelegate::CreateLambda([](FToolMenuSection& InSection)
+		{
+			FToolUIActionChoice SnapAToBChoice(FExecuteAction::CreateLambda([] ()
+			{
+				FSnapTransformOptions Options = OhSnapUtils::LoadSettings();
+				FOhSnapCallbacks::SnapActorToActor(Options, false);
+			}));
+
+			FToolUIActionChoice SnapBToAChoice(FExecuteAction::CreateLambda([] ()
+			{
+				FSnapTransformOptions Options = OhSnapUtils::LoadSettings();
+				FOhSnapCallbacks::SnapActorToActor(Options, true);
+			}));
+
+			UEditorActorSubsystem* EditorActorSubsystem = GEditor->GetEditorSubsystem<UEditorActorSubsystem>();
+			if (!EditorActorSubsystem)
+			{
+				return;
+			}
+
+			TArray<AActor*> SelectedActors = EditorActorSubsystem->GetSelectedLevelActors();
+
+			if (SelectedActors.Num() != 2)
+			{
+				return;
+			}
+
+			FString FirstActorLabel = SelectedActors[0]->GetActorLabel();
+			FString SecondActorLabel = SelectedActors[1]->GetActorLabel();
+			FString SnapAToBLabel = "Snap to " + SecondActorLabel;
+			FString SnapBToALabel = "Snap to " + FirstActorLabel;
+
+			InSection.AddEntry(FToolMenuEntry::InitMenuEntry(FName("Snap A to B"), FText::FromString(SnapAToBLabel), FText::FromString("Snaps the first actor to the second actor's transform"), FSlateIcon(), SnapAToBChoice));
+			InSection.AddEntry(FToolMenuEntry::InitMenuEntry(FName("Snap B to A"), FText::FromString(SnapBToALabel), FText::FromString("Snaps the second actor to the first actor's transform"), FSlateIcon(), SnapBToAChoice));
+		}));
+	};
+
 	UToolMenus* ToolMenus = UToolMenus::Get();
-	UToolMenu* Menu = ToolMenus->ExtendMenu("LevelEditor.LevelEditorSceneOutliner.ContextMenu.SnapAlignSubMenu");
-	if (!Menu)
-	{
-		return;
-	}
-	FToolMenuSection& Section = Menu->FindOrAddSection("SnapAlign");
-	Section.InsertPosition = FToolMenuInsert("SnapOriginToGrid", EToolMenuInsertType::Before);
-	FToolMenuEntry& Entry = Section.AddDynamicEntry("OhSnapEntry", FNewToolMenuSectionDelegate::CreateLambda([](FToolMenuSection& InSection)
-	{
-		FToolUIActionChoice SnapAToBChoice(FExecuteAction::CreateLambda([] ()
-		{
-			FSnapTransformOptions Options = OhSnapUtils::LoadSettings();
-			FOhSnapCallbacks::SnapActorToActor(Options, false);
-		}));
-
-		FToolUIActionChoice SnapBToAChoice(FExecuteAction::CreateLambda([] ()
-		{
-			FSnapTransformOptions Options = OhSnapUtils::LoadSettings();
-			FOhSnapCallbacks::SnapActorToActor(Options, true);
-		}));
-
-		UEditorActorSubsystem* EditorActorSubsystem = GEditor->GetEditorSubsystem<UEditorActorSubsystem>();
-		if (!EditorActorSubsystem)
-		{
-			return;
-		}
-
-		TArray<AActor*> SelectedActors = EditorActorSubsystem->GetSelectedLevelActors();
-
-		if (SelectedActors.Num() != 2)
-		{
-			return;
-		}
-		
-		FString FirstActorLabel = SelectedActors[0]->GetActorLabel();
-		FString SecondActorLabel = SelectedActors[1]->GetActorLabel();
-		FString SnapAToBLabel = "Snap to " + SecondActorLabel;
-		FString SnapBToALabel = "Snap to " + FirstActorLabel;
-		
-		InSection.AddEntry(FToolMenuEntry::InitMenuEntry(FName("Snap A to B"), FText::FromString(SnapAToBLabel), FText::FromString("Snaps the first actor to the second actor's transform"), FSlateIcon(), SnapAToBChoice));
-		InSection.AddEntry(FToolMenuEntry::InitMenuEntry(FName("Snap B to A"), FText::FromString(SnapBToALabel), FText::FromString("Snaps the second actor to the first actor's transform"), FSlateIcon(), SnapBToAChoice));
-	}));
+	AddOhSnapEntries(ToolMenus->ExtendMenu("LevelEditor.LevelEditorSceneOutliner.ContextMenu.SnapAlignSubMenu"));
+	AddOhSnapEntries(ToolMenus->ExtendMenu("LevelEditor.ActorContextMenu.SnapAlignSubMenu"));
 }
 
 void FOhSnapModule::UnregisterSnapButtons()
