@@ -2,7 +2,7 @@
 #include "Templates/Tuple.h"
 #include "OhSnapTypes.generated.h"
 
-UENUM()
+UENUM(Blueprintable)
 enum class ETransformChannel : uint8
 {
 	X,
@@ -10,7 +10,7 @@ enum class ETransformChannel : uint8
 	Z
 };
 
-UENUM()
+UENUM(Blueprintable)
 enum class ETransformComponent : uint8
 {
 	T,
@@ -18,32 +18,35 @@ enum class ETransformComponent : uint8
 	S
 };
 
-USTRUCT()
+USTRUCT(Blueprintable)
 struct FTransformComponentOption
 {
 	GENERATED_BODY()
-	
+
 	UPROPERTY()
 	bool X = true;
-	
+
 	UPROPERTY()
 	bool Y = true;
-	
+
 	UPROPERTY()
 	bool Z = true;
+
+	UPROPERTY()
+	bool bEnabled = true;
 };
 
-USTRUCT()
+USTRUCT(Blueprintable)
 struct FSnapTransformOptions
 {
 	GENERATED_BODY()
-	
+
 	UPROPERTY()
-	FTransformComponentOption Translation = {true, true, true};
+	FTransformComponentOption Translation = {true, true, true, true};
 	UPROPERTY()
-	FTransformComponentOption Rotation = {true, true, true};
+	FTransformComponentOption Rotation = {true, true, true, true};
 	UPROPERTY()
-	FTransformComponentOption Scale = {false, false, false};
+	FTransformComponentOption Scale = {false, false, false, false};
 };
 
 DECLARE_DELEGATE_OneParam(FOnTransformComponentChanged, const FTransformComponentOption&);

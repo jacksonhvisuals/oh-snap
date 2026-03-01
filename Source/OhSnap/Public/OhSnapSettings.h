@@ -19,25 +19,6 @@ class UOhSnapSettings
 public:
 	UOhSnapSettings(const FObjectInitializer& ObjectInitializer);
 	
-	/** Include Translation when snapping Actors to each other */
-	UPROPERTY(Config, EditAnywhere, Category="Actor to Actor", meta=(DisplayName="Include Translation"))
-	bool bIncludeTranslation = true;
-	
-	/** Include Rotation when snapping Actors to each other */
-	UPROPERTY(Config, EditAnywhere, Category="Actor to Actor", meta=(DisplayName="Include Rotation"))
-	bool bIncludeRotation = true;
-	
-	/** Include Scale when snapping Actors to each other */
-	UPROPERTY(Config, EditAnywhere, Category="Actor to Actor", meta=(DisplayName="Include Scale"))
-	bool bIncludeScale = false;
-	
-	UPROPERTY(Config, EditAnywhere, Category="Actor to Actor")
+	UPROPERTY(Config, EditAnywhere, Category="Oh Snap", meta=(DisplayName="Snapping Transform Options"))
 	FSnapTransformOptions SnapTransformOptions;
-	
-	/* It looks like we need to register our custom property type layout with the FPropertyEditorModule
-	 * Specifically, see how FImportantToggleSettingCustomization implements IDetailCustomization.
-	 * 
-	 * FPropertyEditorModule& PropertyModule = FModuleManager::GetModuleChecked<FPropertyEditorModule>(PropertyEditor); 
-	 * PropertyModule.RegisterCustomPropertyTypeLayout(PropertyTypeName, PropertyTypeLayoutDelegate);
-	 */
 };

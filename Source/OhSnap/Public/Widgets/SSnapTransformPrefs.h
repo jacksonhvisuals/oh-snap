@@ -11,9 +11,14 @@ class STransformComponent : public SCompoundWidget
 
 	virtual void Construct(const FArguments& Args);
 private:
+	void OnSectionCheckStateChanged(ECheckBoxState NewState);
+	void OnChannelCheckStateChanged(ETransformChannel Channel, ECheckBoxState NewState);
+	void BroadcastChange();
+
 	FText LabelText;
 	FTransformComponentOption OptionState;
 	FOnTransformComponentChanged OnChanged;
+	TArray<TSharedPtr<SCheckBox>> ChannelCheckBoxes;
 };
 
 class SSnapTransformPreferences : public SCompoundWidget
@@ -22,16 +27,12 @@ public:
 	SLATE_BEGIN_ARGS(SSnapTransformPreferences) {}
 		SLATE_ARGUMENT(FSnapTransformOptions, TransformOptions)
 		SLATE_EVENT(FOnTransformOptionsChanged, OnOptionsChanged)
-	SLATE_END_ARGS()	
-	
+	SLATE_END_ARGS()
+
 	virtual void Construct(const FArguments& Args);
 private:
 	TSharedRef<SWidget> CreateTransformComponentWidget(ETransformComponent ComponentType);
 private:
 	FSnapTransformOptions Options;
-	bool bPersistSetting = false;
+	FOnTransformOptionsChanged OnOptionsChanged;
 };
-
-// ---- Widget bindings ----
-// bool IsMakeDefaultChecked() const;
-// void OnMakeDefaultChanged(const ECheckBoxState& NewState);

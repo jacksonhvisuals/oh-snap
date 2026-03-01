@@ -10,19 +10,36 @@
 #include "ToolMenus.h"
 #include "Engine/DeveloperSettings.h"
 #include "Subsystems/EditorActorSubsystem.h"
+#include "Widgets/OhSnapStyle.h"
+#include "Widgets/SnapTransformSettingCustomization.h"
 
 #define LOCTEXT_NAMESPACE "FOhSnapModule"
 static const FName OhSnapName("OhSnapMenu");
+static const FName OhSnapSettingsName("OhSnapSettings");
 
 void FOhSnapModule::StartupModule()
 {
+	FOhSnapStyle::Initialize();
 	FOhSnapCommands::Register();
 	RegisterGlobalOhSnapCommands();
 
 	UToolMenus::RegisterStartupCallback(FSimpleMulticastDelegate::FDelegate::CreateRaw(this, &FOhSnapModule::RegisterSnapButtons));
+	
+	static const FName PropertyEditor("PropertyEditor");
+	FPropertyEditorModule& PropertyModule = FModuleManager::GetModuleChecked<FPropertyEditorModule>(PropertyEditor); 
+	PropertyModule.RegisterCustomClassLayout(OhSnapSettingsName, FOnGetDetailCustomizationInstance::CreateStatic(&FSnapTransformSettingCustomization::MakeInstance));
+	PropertyModule.NotifyCustomizationModuleChanged();
 }
+
 void FOhSnapModule::ShutdownModule()
 {
+	if (FModuleManager::Get().IsModuleLoaded("PropertyEditor"))
+	{
+		FPropertyEditorModule& PropertyModule = FModuleManager::GetModuleChecked<FPropertyEditorModule>("PropertyEditor");
+		PropertyModule.UnregisterCustomClassLayout(OhSnapSettingsName);
+	}
+	
+	FOhSnapStyle::Shutdown();
     UnregisterSnapButtons();
 	FOhSnapCommands::Unregister();
 }
@@ -38,13 +55,13 @@ void FOhSnapModule::RegisterGlobalOhSnapCommands()
     ActionList.MapAction( Commands.SnapAToB, FExecuteAction::CreateLambda([] ()
     {
     	FSnapTransformOptions Options = OhSnapUtils::LoadSettings();
-		FOhSnapCallbacks::SnapActorToActor(Options);
+		FOhSnapCallbacks::SnapActorToActor(Options, false);
     }), FCanExecuteAction::CreateStatic( &FOhSnapCallbacks::SnapActorToActor_CanExecute) );
-	
+
     ActionList.MapAction( Commands.SnapBToA, FExecuteAction::CreateStatic([] ()
     {
     	FSnapTransformOptions Options = OhSnapUtils::LoadSettings();
-		FOhSnapCallbacks::SnapActorToActor(Options);
+		FOhSnapCallbacks::SnapActorToActor(Options, true);
     }), FCanExecuteAction::CreateStatic( &FOhSnapCallbacks::SnapActorToActor_CanExecute) );
 }
 
@@ -63,13 +80,13 @@ void FOhSnapModule::RegisterSnapButtons()
 		FToolUIActionChoice SnapAToBChoice(FExecuteAction::CreateLambda([] ()
 		{
 			FSnapTransformOptions Options = OhSnapUtils::LoadSettings();
-			FOhSnapCallbacks::SnapActorToActor(Options);
+			FOhSnapCallbacks::SnapActorToActor(Options, false);
 		}));
-		
+
 		FToolUIActionChoice SnapBToAChoice(FExecuteAction::CreateLambda([] ()
 		{
 			FSnapTransformOptions Options = OhSnapUtils::LoadSettings();
-			FOhSnapCallbacks::SnapActorToActor(Options);
+			FOhSnapCallbacks::SnapActorToActor(Options, true);
 		}));
 
 		UEditorActorSubsystem* EditorActorSubsystem = GEditor->GetEditorSubsystem<UEditorActorSubsystem>();

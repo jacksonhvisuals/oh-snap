@@ -6,6 +6,6 @@
 class OHSNAP_API FOhSnapCallbacks
 {
 public:
-	static void SnapActorToActor(FSnapTransformOptions Options);
+	static void SnapActorToActor(FSnapTransformOptions Options, bool bReverse = false);
 	static bool SnapActorToActor_CanExecute();
 };

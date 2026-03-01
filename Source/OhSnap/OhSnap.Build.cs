@@ -42,7 +42,9 @@ public class OhSnap : ModuleRules
 				"SlateCore",
 				"ToolMenus",
 				"ToolWidgets",
-				"UnrealEd"
+				"Projects",
+				"UnrealEd",
+				"PropertyEditor"
 			}
 		);
 		
