@@ -85,7 +85,7 @@ Changes here apply to all subsequent snaps that don't use the inline dialog. The
 
 ## Requirements
 
-- Unreal Engine 5.7
+- Unreal Engine 5.6+
 - Platforms: Win64, Linux, Mac
 
 ---
