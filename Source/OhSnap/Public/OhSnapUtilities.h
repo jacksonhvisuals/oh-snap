@@ -3,6 +3,9 @@
 #pragma once
 #include "OhSnapTypes.h"
 
+class SWindow;
+class SWidget;
+
 class OhSnapUtils
 {
 public:

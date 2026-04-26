@@ -2,14 +2,17 @@
 
 #include "OhSnapUtilities.h"
 
+#include "Framework/Application/SlateApplication.h"
 #include "OhSnapLog.h"
 #include "OhSnapSettings.h"
 #include "Interfaces/IMainFrameModule.h"
+#include "Widgets/Input/SCheckBox.h"
+#include "Widgets/Layout/SBox.h"
+#include "Widgets/Layout/SSeparator.h"
 #include "Widgets/SSnapTransformPrefs.h"
 #include "OhSnapTypes.h"
 #include "Dialog/SCustomDialog.h"
-
-class SCustomDialog;
+#include "Widgets/Text/STextBlock.h"
 
 #define LOCTEXT_NAMESPACE "OhSnap"
 
