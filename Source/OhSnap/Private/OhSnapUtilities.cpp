@@ -176,8 +176,8 @@ bool OhSnapUtils::GetTransformOptionsFromUser(FSnapTransformOptions& OutOptions,
 			
 		]
 		.Buttons({
-			SCustomDialog::FButton(LOCTEXT("Cancel", "Cancel"), FSimpleDelegate(), SCustomDialog::EButtonRole::Cancel),
-			SCustomDialog::FButton(LOCTEXT("ConfirmSnappingOptions", "Confirm"), FSimpleDelegate(), SCustomDialog::EButtonRole::Confirm).SetPrimary(true),
+			SCustomDialog::FButton(LOCTEXT("Cancel", "Cancel")),
+			SCustomDialog::FButton(LOCTEXT("ConfirmSnappingOptions", "Confirm")).SetPrimary(true),
 	});
 
 	// Show window and get result. Result < 0 = closed, 0 = Cancel, 1 = Confirm
