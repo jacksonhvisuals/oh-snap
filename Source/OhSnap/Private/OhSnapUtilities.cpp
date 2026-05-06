@@ -69,7 +69,7 @@ bool OhSnapUtils::GetTransformOptionsFromUser(FSnapTransformOptions& OutOptions,
 		.UseScrollBox(false)
 		.HAlignContent(HAlign_Fill)
 		.RootPadding(FMargin(8))
-		.ButtonAreaPadding(FMargin({20, 16, 4, 4}))
+		.ButtonAreaPadding(FMargin(20, 16, 4, 4))
 		.Content()
 		[
 			SNew(SVerticalBox)
