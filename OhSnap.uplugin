@@ -1,8 +1,8 @@
 {
 	"FileVersion": 3,
 	"Version": 10100,
-	"VersionName": "1.1.0",
-	"EngineVersion": "5.7",
+	"VersionName": "1.2.0",
+	"EngineVersion": "5.8",
 	"FriendlyName": "Oh, Snap!",
 	"Description": "A UE5 editor plugin that snaps one actor's transform to another — with per-axis control over translation, rotation, and scale.",
 	"Category": "Editor",
